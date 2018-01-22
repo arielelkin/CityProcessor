@@ -14,6 +14,8 @@
 		B08985BA2016083300343F06 /* CityProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08985B92016083300343F06 /* CityProcessorTests.swift */; };
 		B08985C5201615DB00343F06 /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = B08985C4201615DA00343F06 /* cities.json */; };
 		B08985C6201615DB00343F06 /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = B08985C4201615DA00343F06 /* cities.json */; };
+		B08985C82016172100343F06 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08985C72016172100343F06 /* City.swift */; };
+		B08985C92016172100343F06 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08985C72016172100343F06 /* City.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +39,7 @@
 		B08985B92016083300343F06 /* CityProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityProcessorTests.swift; sourceTree = "<group>"; };
 		B08985BB2016083300343F06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B08985C4201615DA00343F06 /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
+		B08985C72016172100343F06 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,7 @@
 		B08985A32016083300343F06 /* CityProcessor */ = {
 			isa = PBXGroup;
 			children = (
+				B08985C72016172100343F06 /* City.swift */,
 				B08985A42016083300343F06 /* AppDelegate.swift */,
 				B08985A62016083300343F06 /* ViewController.swift */,
 				B08985AB2016083300343F06 /* Assets.xcassets */,
@@ -203,6 +207,7 @@
 			files = (
 				B08985A72016083300343F06 /* ViewController.swift in Sources */,
 				B08985A52016083300343F06 /* AppDelegate.swift in Sources */,
+				B08985C82016172100343F06 /* City.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B08985C92016172100343F06 /* City.swift in Sources */,
 				B08985BA2016083300343F06 /* CityProcessorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
