@@ -1,0 +1,9 @@
+## Build-generated
+build/
+DerivedData/
+
+## Xcode settings
+xcuserdata/
+
+## OS
+.DS_Store
