@@ -11,8 +11,15 @@ import UIKit
 class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
     private let cityArray: [City]
+    var filteredCityArray = [City]()
 
     fileprivate let kCellReuseIdentifier = "cell"
+
+    let collectionView = UICollectionView(
+        frame: CGRect.zero,
+        collectionViewLayout: UICollectionViewFlowLayout())
+    let searchController = UISearchController(searchResultsController: nil)
+
 
     init(cityArray: [City]) {
         self.cityArray = cityArray
@@ -24,22 +31,28 @@ class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         setupUI()
 
         //todo:
-        //         navigationItem.searchController = searchController //local instance
         //        navigationItem.largeTitleDisplayMode = .never
 
     }
 
     fileprivate func setupUI() {
 
-        view.backgroundColor = .lightGray
-
         title = "Cities"
+
+        view.backgroundColor = .white
+
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Please enter search term"
+        definesPresentationContext = true
+
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationItem.hidesSearchBarWhenScrolling = false
+            navigationItem.searchController = searchController
         }
 
-        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.backgroundColor = .lightGray
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CityCell.self, forCellWithReuseIdentifier: kCellReuseIdentifier)
@@ -57,8 +70,22 @@ class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         NSLayoutConstraint.activate(constraints)
     }
 
+    fileprivate var isFiltering: Bool {
+        return searchController.isActive && (searchController.searchBar.text?.isEmpty != true)
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented because we're not using XIBs")
+    }
+}
+
+extension ListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchKey = searchController.searchBar.text!
+        filteredCityArray = cityArray.filter{( city : City) -> Bool in
+            return city.name.lowercased().hasPrefix(searchKey.lowercased())
+        }
+        collectionView.reloadData()
     }
 }
 
@@ -76,12 +103,23 @@ extension ListViewController: UICollectionViewDelegate {
 extension ListViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cityArray.count
+        if isFiltering {
+            return filteredCityArray.count
+        }
+        else {
+            return cityArray.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCellReuseIdentifier, for: indexPath) as! CityCell
-        cell.city = cityArray[indexPath.item]
+
+        if isFiltering {
+            cell.city = filteredCityArray[indexPath.item]
+        }
+        else {
+            cell.city = cityArray[indexPath.item]
+        }
         return cell
     }
 }
