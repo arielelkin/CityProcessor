@@ -13,6 +13,8 @@
 		B08985AC2016083300343F06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B08985AB2016083300343F06 /* Assets.xcassets */; };
 		B08985AF2016083300343F06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B08985AD2016083300343F06 /* LaunchScreen.storyboard */; };
 		B08985BA2016083300343F06 /* CityProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08985B92016083300343F06 /* CityProcessorTests.swift */; };
+		B08985C5201615DB00343F06 /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = B08985C4201615DA00343F06 /* cities.json */; };
+		B08985C6201615DB00343F06 /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = B08985C4201615DA00343F06 /* cities.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 		B08985B52016083300343F06 /* CityProcessorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CityProcessorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B08985B92016083300343F06 /* CityProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityProcessorTests.swift; sourceTree = "<group>"; };
 		B08985BB2016083300343F06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B08985C4201615DA00343F06 /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +62,7 @@
 		B08985982016083300343F06 = {
 			isa = PBXGroup;
 			children = (
+				B08985C4201615DA00343F06 /* cities.json */,
 				B08985A32016083300343F06 /* CityProcessor */,
 				B08985B82016083300343F06 /* CityProcessorTests */,
 				B08985A22016083300343F06 /* Products */,
@@ -179,6 +183,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B08985C5201615DB00343F06 /* cities.json in Resources */,
 				B08985AF2016083300343F06 /* LaunchScreen.storyboard in Resources */,
 				B08985AC2016083300343F06 /* Assets.xcassets in Resources */,
 				B08985AA2016083300343F06 /* Main.storyboard in Resources */,
@@ -189,6 +194,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B08985C6201615DB00343F06 /* cities.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
