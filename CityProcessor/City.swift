@@ -12,5 +12,5 @@ struct City {
     let id: Int
     let name: String
     let countryCode: String
-    let coordinate: CLLocationCoordinate2D
+    let coordinates: CLLocationCoordinate2D
 }

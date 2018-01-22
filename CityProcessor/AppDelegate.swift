@@ -16,49 +16,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+        let loadingVC = LoadingViewController()
+        loadingVC.cityLoadingCompletion = { result in
+            switch result {
+            case .success(let cityArray):
+                UIView.transition(
+                    with: self.window!,
+                    duration: 0.5,
+                    options: .transitionFlipFromLeft,
+                    animations: {
+                        self.window?.rootViewController = ListViewController(cityArray: cityArray)
+                },
+                    completion: nil
+                )
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = ViewController()
+        window?.rootViewController = loadingVC
         window?.makeKeyAndVisible()
 
-
-
         return true
-    }
-
-    fileprivate func parseCitiesJSON() throws -> [City] {
-
-        var result = [City]()
-
-        guard let jsonPath = Bundle.main.path(forResource: "cities", ofType: "json") else {
-            assertionFailure()
-            return [City]()
-        }
-
-        do {
-            let data = try Data(contentsOf: URL(fileURLWithPath: jsonPath), options: [.uncached])
-            let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
-
-            if let cityArray = jsonResult as? [AnyObject] {
-                print(cityArray.first!)
-
-                for cityJSON in cityArray {
-                    if let cityName = cityJSON["name"] as? String,
-                        let countryCode = cityJSON["country"] as? String,
-                        let cityID = cityJSON["_id"] as? Int
-                    {
-                        let city = City(id: cityID, name: cityName, countryCode: countryCode, coordinate: CLLocationCoordinate2D.init())
-                        result.append(city)
-                    }
-                }
-            }
-            else {
-                assertionFailure()
-            }
-        } catch {
-            assertionFailure("\(error)")
-            throw error
-        }
-        return result
     }
 }
 
