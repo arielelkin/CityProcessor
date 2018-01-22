@@ -85,7 +85,6 @@ class LoadingViewController: UIViewController {
 
         var result = [City]()
 
-
         guard let jsonPath = Bundle.main.path(forResource: "cities", ofType: "json") else {
             throw CityLoadingError.noSuchFile
         }
@@ -98,17 +97,15 @@ class LoadingViewController: UIViewController {
                 for (index, cityJSON) in cityArray.enumerated() {
 
                     if index % 1000 == 0 {
-                        self.progressView.setProgress((Float((index + 1)) / Float(cityArray.count)), animated: false)
+                        self.progressView.setProgress((Float((index + 1)) / Float(cityArray.count)) - 0.2, animated: false)
                     }
 
                     var coordinates: CLLocationCoordinate2D?
-
                     if let coordinatesDict = cityJSON["coord"] as? NSDictionary,
                         let latitude = coordinatesDict["lat"] as? Double,
                         let longitude = coordinatesDict["lon"] as? Double {
                         coordinates = CLLocationCoordinate2DMake(latitude, longitude)
                     }
-
 
                     if let cityName = cityJSON["name"] as? String,
                         let countryCode = cityJSON["country"] as? String,
@@ -124,6 +121,10 @@ class LoadingViewController: UIViewController {
                         result.append(city)
                     }
                 }
+
+                result.sort{ $0.name < $1.name }
+
+                self.progressView.setProgress(1, animated: false)
             }
             else {
                 throw CityLoadingError.invalidJSONObject
