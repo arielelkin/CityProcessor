@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     duration: 0.5,
                     options: .transitionFlipFromLeft,
                     animations: {
-                        self.window?.rootViewController = ListViewController(cityArray: cityArray)
+                        self.window?.rootViewController = UINavigationController(rootViewController: ListViewController(cityArray: cityArray))
                 },
                     completion: nil
                 )
