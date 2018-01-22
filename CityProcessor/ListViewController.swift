@@ -20,6 +20,8 @@ class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionViewLayout: UICollectionViewFlowLayout())
     let searchController = UISearchController(searchResultsController: nil)
 
+    let mapVC = MapViewController()
+
 
     init(cityArray: [City]) {
         self.cityArray = cityArray
@@ -92,7 +94,14 @@ extension ListViewController: UISearchResultsUpdating {
 extension ListViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("tapped \(indexPath)")
+        navigationController?.pushViewController(mapVC, animated: true)
+        if isFiltering {
+            mapVC.coordinates = filteredCityArray[indexPath.item].coordinates
+        }
+        else {
+            mapVC.coordinates = cityArray[indexPath.item].coordinates
+        }
+
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

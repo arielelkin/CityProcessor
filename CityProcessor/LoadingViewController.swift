@@ -104,7 +104,7 @@ class LoadingViewController: UIViewController {
                     if let coordinatesDict = cityJSON["coord"] as? NSDictionary,
                         let latitude = coordinatesDict["lat"] as? Double,
                         let longitude = coordinatesDict["lon"] as? Double {
-                        coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+                        coordinates = CLLocationCoordinate2D.init(latitude: latitude, longitude: longitude)
                     }
 
                     if let cityName = cityJSON["name"] as? String,
