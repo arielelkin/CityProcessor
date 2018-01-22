@@ -13,10 +13,11 @@ class MapViewController: UIViewController {
 
     let mapView = MKMapView()
 
-    var coordinates: CLLocationCoordinate2D? {
+    var city: City? {
         didSet {
+            title = city!.name
             let coordinateRegion = MKCoordinateRegionMakeWithDistance(
-                coordinates!,
+                city!.coordinates,
                 5000,
                 5000
             )
@@ -26,7 +27,11 @@ class MapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
+
         mapView.isPitchEnabled = false
         mapView.isRotateEnabled = false
         mapView.translatesAutoresizingMaskIntoConstraints = false

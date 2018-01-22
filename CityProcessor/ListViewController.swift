@@ -31,10 +31,6 @@ class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
-        //todo:
-        //        navigationItem.largeTitleDisplayMode = .never
-
     }
 
     fileprivate func setupUI() {
@@ -96,10 +92,10 @@ extension ListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         navigationController?.pushViewController(mapVC, animated: true)
         if isFiltering {
-            mapVC.coordinates = filteredCityArray[indexPath.item].coordinates
+            mapVC.city = filteredCityArray[indexPath.item]
         }
         else {
-            mapVC.coordinates = cityArray[indexPath.item].coordinates
+            mapVC.city = cityArray[indexPath.item]
         }
 
     }
