@@ -27,10 +27,12 @@ class MapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+    
+    fileprivate func setupUI() {
 
-        if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .never
-        }
+        navigationItem.largeTitleDisplayMode = .never
 
         mapView.isPitchEnabled = false
         mapView.isRotateEnabled = false

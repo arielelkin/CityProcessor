@@ -32,6 +32,7 @@ class CityCell: UICollectionViewCell {
         viewsDict["countryNameLabel"] = countryNameLabel
         contentView.addSubview(countryNameLabel)
 
+
         let constraints = [
             "H:|-[cityNameLabel]-|",
             "H:|-[countryNameLabel]-|",
@@ -52,4 +53,3 @@ class CityCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented because we're not using XIBs")
     }
 }
-

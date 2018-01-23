@@ -39,16 +39,15 @@ class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
         view.backgroundColor = .white
 
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.searchController = searchController
+
+
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Please enter search term"
         definesPresentationContext = true
-
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-            navigationItem.hidesSearchBarWhenScrolling = false
-            navigationItem.searchController = searchController
-        }
 
         collectionView.backgroundColor = .lightGray
         collectionView.delegate = self
@@ -59,6 +58,7 @@ class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
 
+        
         let constraints = [
             "H:|[collectionView]|",
             "V:|[collectionView]|",

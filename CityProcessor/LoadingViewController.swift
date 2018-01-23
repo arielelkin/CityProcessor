@@ -30,6 +30,7 @@ class LoadingViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
     }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -48,7 +49,8 @@ class LoadingViewController: UIViewController {
 
     }
 
-    func setupUI() {
+    fileprivate func setupUI() {
+
         view.backgroundColor = .lightGray
 
         var viewsDict = [String: UIView]()
@@ -66,6 +68,7 @@ class LoadingViewController: UIViewController {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         viewsDict["progressView"] = progressView
         view.addSubview(progressView)
+
 
         let constraints = [
             "H:|-[label]-|",
