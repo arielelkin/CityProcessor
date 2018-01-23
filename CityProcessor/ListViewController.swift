@@ -15,6 +15,8 @@ class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
     fileprivate let kCellReuseIdentifier = "cell"
 
+    fileprivate var filterOperationQueue = OperationQueue()
+
     let collectionView = UICollectionView(
         frame: CGRect.zero,
         collectionViewLayout: UICollectionViewFlowLayout())
@@ -84,103 +86,38 @@ extension ListViewController: UISearchResultsUpdating {
 
         // Accomodate entries not in English. For example:
         // Paris, the French capital, is spelt "París in Spanish.
-        // A search for "París" should return "Paris".
-        let searchKey = searchController.searchBar.text!.folding(options: [.diacriticInsensitive, .widthInsensitive, .caseInsensitive], locale: nil)
+        // A search for "París" should therefore return "Paris".
+        let searchKey = searchController.searchBar.text!
+            .folding(options: [.diacriticInsensitive, .widthInsensitive, .caseInsensitive], locale: nil)
 
         guard searchKey != "" else {
             collectionView.reloadData()
             return
         }
 
-        /*
-
-         Filtering Strategy:
-
-         1. Very quickly find an index in cityArray of a city with a
-         prefix that matches the search key. The array is already sorted
-         so a binary search is a natural choice.
-         2. If found, given that the array is sorted, any additional matches
-         will be found in the indices immediately before or after. Run simple
-         linear searches in each direction and add them to the filteredCityArray
-         displayed by the collection view.
-
-         Further optimisations are possible:
-
-         Currently, a search is ran on the fully cityArray every time
-         a character is added or removed from the search bar. This could
-         be optimised by running a search on the filtered array.
-
-         Similarly, we're calling reloadData() on the collection view every
-         time a character is added or removed from the search bar. This could be
-         optimised by manually adding or removing cells from the collection view.
-
-         The two linear searches following the binary search happen sequentially.
-         They could instead each be wrapped into Operations and run in parallel.
-
-         */
-
-        filteredCityArray = [City]()
-
-        if let midIndex = binarySearch(cityArray, key: searchKey, range: 0 ..< cityArray.count) {
-
-            filteredCityArray.append(cityArray[midIndex])
-
-            for index in stride(from: midIndex+1, to: cityArray.count-1, by: 1) {
-                if cityArray[index].searchableName.hasPrefix(searchKey) {
-                    filteredCityArray.append(cityArray[index])
-                }
-                else {
-                    break
-                }
-            }
-
-            var precedingEntries = [City]()
-            for index in stride(from: midIndex-1, to: 0, by: -1) {
-                if cityArray[index].searchableName.hasPrefix(searchKey) {
-                    precedingEntries.append(cityArray[index])
-                }
-                else {
-                    break
-                }
-            }
-            filteredCityArray.insert(contentsOf: precedingEntries.reversed(), at: 0)
+        if filterOperationQueue.operationCount > 0 {
+            // cancel current filtering operation if it's not done
+            // yet and the user updated the search key
+            filterOperationQueue.cancelAllOperations()
         }
 
-        collectionView.reloadData()
+        // Run filtering in the background
+        let filterOperation = BlockOperation {
+            self.filteredCityArray = self.cityArray.filteredByPrefix(searchKey)
+        }
+
+        filterOperation.completionBlock = {
+            if !filterOperation.isCancelled {
+                OperationQueue.main.addOperation {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+        filterOperationQueue.addOperation(filterOperation)
     }
 }
 
 
-func binarySearch(_ array: [City], key: String, range: Range<Int>) -> Int? {
-
-    if range.lowerBound >= range.upperBound {
-        // If we get here, then the search key is not present in the array.
-        return nil
-
-    } else {
-        // Calculate where to split the array.
-        let midIndex = range.lowerBound + (range.upperBound - range.lowerBound) / 2
-
-        if array[midIndex].name.lowercased().hasPrefix(key) {
-            return midIndex
-        }
-        else {
-
-            // Is the search key in the left half?
-            if array[midIndex].name.lowercased() > key {
-                return binarySearch(array, key: key, range: range.lowerBound ..< midIndex)
-
-            // Is the search key in the right half?
-            } else if array[midIndex].name.lowercased() < key {
-                return binarySearch(array, key: key, range: midIndex + 1 ..< range.upperBound)
-
-            // If we get here, then we've found the search key!
-            } else {
-                return midIndex
-            }
-        }
-    }
-}
 extension ListViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

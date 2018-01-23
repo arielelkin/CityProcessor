@@ -94,7 +94,6 @@ class LoadingViewController: UIViewController {
 
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: jsonPath), options: [.uncached])
-
             if let cityArray = try JSONSerialization.jsonObject(with: data, options: []) as? [AnyObject] {
 
                 for (index, cityJSON) in cityArray.enumerated() {
@@ -103,26 +102,9 @@ class LoadingViewController: UIViewController {
                         self.progressView.setProgress((Float((index + 1)) / Float(cityArray.count)) - 0.2, animated: false)
                     }
 
-                    var coordinates: CLLocationCoordinate2D?
-                    if let coordinatesDict = cityJSON["coord"] as? NSDictionary,
-                        let latitude = coordinatesDict["lat"] as? Double,
-                        let longitude = coordinatesDict["lon"] as? Double {
-                        coordinates = CLLocationCoordinate2D.init(latitude: latitude, longitude: longitude)
-                    }
+                    let city = try City(jsonDict: cityJSON)
 
-                    if let cityName = cityJSON["name"] as? String,
-                        let countryCode = cityJSON["country"] as? String,
-                        let cityID = cityJSON["_id"] as? Int,
-                        let coordinates = coordinates {
-
-                        let city = City(
-                            id: cityID,
-                            name: cityName,
-                            countryCode: countryCode,
-                            coordinates: coordinates
-                        )
-                        result.append(city)
-                    }
+                    result.append(city)
                 }
 
                 result.sort{ $0.name < $1.name }
@@ -133,7 +115,11 @@ class LoadingViewController: UIViewController {
                 throw CityLoadingError.invalidJSONObject
             }
         } catch {
-            throw error
+            if !(error is CityInitError) {
+                // we're assuming that a CityInitError (i.e. a city failed to parse)
+                // is recoverable, and that other errors are not.
+                throw error
+            }
         }
         return result
     }

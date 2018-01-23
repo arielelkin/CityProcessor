@@ -15,13 +15,18 @@ class MapViewController: UIViewController {
 
     var city: City? {
         didSet {
-            title = city!.name
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(
-                city!.coordinates,
-                5000,
-                5000
-            )
-            mapView.setRegion(coordinateRegion, animated: true)
+            if let city = city {
+                title = city.name
+                let coordinateRegion = MKCoordinateRegionMakeWithDistance(
+                    city.coordinates,
+                    5000,
+                    5000
+                )
+                mapView.setRegion(coordinateRegion, animated: true)
+            }
+            else {
+                assertionFailure("we should not set city to nil on MapVC")
+            }
         }
     }
 
