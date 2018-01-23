@@ -22,7 +22,7 @@ class MapViewController: UIViewController {
                     5000,
                     5000
                 )
-                mapView.setRegion(coordinateRegion, animated: true)
+                mapView.setRegion(coordinateRegion, animated: false)
             }
             else {
                 assertionFailure("we should not set city to nil on MapVC")
