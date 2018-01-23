@@ -13,4 +13,21 @@ struct City {
     let name: String
     let countryCode: String
     let coordinates: CLLocationCoordinate2D
+
+    let searchableName: String
+
+    init(id: Int,
+         name: String,
+         countryCode: String,
+         coordinates: CLLocationCoordinate2D) {
+        self.id = id
+        self.name = name
+        self.countryCode = countryCode
+        self.coordinates = coordinates
+        self.searchableName = name.folding(options: [.diacriticInsensitive, .widthInsensitive, .caseInsensitive], locale: nil)
+    }
+}
+
+extension Collection where Element == City {
+
 }
