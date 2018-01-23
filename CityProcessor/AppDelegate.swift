@@ -20,12 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loadingVC.cityLoadingCompletion = { result in
             switch result {
             case .success(let cityArray):
+                assert(self.window != nil)
                 UIView.transition(
                     with: self.window!,
                     duration: 0.5,
                     options: .transitionFlipFromLeft,
                     animations: {
-                        self.window?.rootViewController = UINavigationController(rootViewController: ListViewController(cityArray: cityArray))
+                        self.window!.rootViewController = UINavigationController(rootViewController: ListViewController(cityArray: cityArray))
                 },
                     completion: nil
                 )
