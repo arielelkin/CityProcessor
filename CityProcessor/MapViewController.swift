@@ -11,7 +11,7 @@ import MapKit
 
 class MapViewController: UIViewController {
 
-    let mapView = MKMapView()
+    fileprivate let mapView = MKMapView()
 
     var city: City? {
         didSet {

@@ -59,6 +59,7 @@ struct City {
     }
 }
 
+
 extension Collection where Element == City {
 
     /*
@@ -74,16 +75,20 @@ extension Collection where Element == City {
 
      Further optimisations are possible:
 
-     Currently, a search is ran on the fully cityArray every time
+     - Currently, a search is ran on the fully cityArray every time
      a character is added or removed from the search bar. This could
      be optimised by running a search on the filtered array.
 
-     Similarly, we're calling reloadData() on the collection view every
+     - Similarly, we're calling reloadData() on the collection view every
      time a character is added or removed from the search bar. This could be
      optimised by manually adding or removing cells from the collection view.
 
-     The two linear searches following the binary search happen sequentially.
+     - The two linear searches following the binary search happen sequentially.
      They could instead each be wrapped into Operations and run in parallel.
+
+     - This extension could be refactored to work with any given predicate with
+     any given type of Element (it may come in handy if we ever wish to filter
+     by country codes, for example).
 
      */
     func filteredByPrefix(_ searchKey: String) -> [City] {

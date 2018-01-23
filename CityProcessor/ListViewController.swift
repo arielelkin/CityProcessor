@@ -17,12 +17,12 @@ class ListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
     fileprivate var filterOperationQueue = OperationQueue()
 
-    let collectionView = UICollectionView(
+    fileprivate let collectionView = UICollectionView(
         frame: CGRect.zero,
         collectionViewLayout: UICollectionViewFlowLayout())
-    let searchController = UISearchController(searchResultsController: nil)
+    fileprivate let searchController = UISearchController(searchResultsController: nil)
 
-    let mapVC = MapViewController()
+    fileprivate let mapVC = MapViewController()
 
 
     init(cityArray: [City]) {
@@ -128,7 +128,6 @@ extension ListViewController: UICollectionViewDelegate {
         else {
             mapVC.city = cityArray[indexPath.item]
         }
-
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
